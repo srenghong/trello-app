@@ -1,0 +1,8 @@
+.form,
+.form-field {
+  margin-bottom: 20px;
+}
+
+textarea {
+  vertical-align: top;
+}

@@ -1,0 +1,23 @@
+.list-container {
+  display: flex;
+  justify-content: space-between;
+  min-width: 800px;
+  max-width: 1000px;
+}
+
+.list {
+  width: 200px;
+  padding: 10px;
+  margin-right: 10px;
+  background-color: #ebecf0;
+  border-radius: 4px;
+}
+
+.list-title {
+  margin: 10px 0;
+}
+
+.list ul {
+  margin: 0;
+  padding: 0;
+}
