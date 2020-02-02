@@ -1,4 +1,4 @@
-import { FETCH_TASKS, NEW_TASK, REMOVE_TASK } from "./types";
+import { FETCH_TASKS, NEW_TASK, REMOVE_TASK, UPDATE_TASK } from "./types";
 
 export const fetchTasks = () => dispatch => {
   fetch("http://localhost:3004/tasks")
@@ -19,14 +19,11 @@ export const addTask = taskData => dispatch => {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(taskData)
-  })
-    .then(res => res.json())
-    .then(task =>
-      dispatch({
-        type: NEW_TASK,
-        payload: task
-      })
-    );
+  }).then(() =>
+    dispatch({
+      type: NEW_TASK
+    })
+  );
 };
 
 export const removeTask = taskId => dispatch => {
@@ -34,10 +31,22 @@ export const removeTask = taskId => dispatch => {
     method: "DELETE"
   }).then(() =>
     dispatch({
-      type: REMOVE_TASK,
-      payload: {
-        id: taskId
-      }
+      type: REMOVE_TASK
+    })
+  );
+};
+
+export const updateTask = taskData => dispatch => {
+  fetch(`http://localhost:3004/tasks/${taskData.id}`, {
+    method: "PATCH",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(taskData)
+  }).then(() =>
+    dispatch({
+      type: UPDATE_TASK
     })
   );
 };
