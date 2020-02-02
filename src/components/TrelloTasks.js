@@ -4,11 +4,10 @@ import "./TrelloTasks.css";
 
 const TrelloTasks = props =>
   props.tasks
-    .filter(task => {
-      return task.status.toLowerCase() === props.listItem.toLowerCase();
-    })
+    .filter(task => task.name !== "")
+    .filter(task => task.status.toLowerCase() === props.listItem.toLowerCase())
     .map(task => (
-      <li key={task.name} className="task">
+      <li key={task.id} className="task">
         {task.name}
       </li>
     ));

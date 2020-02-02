@@ -1,20 +1,19 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchTasks } from "../actions/taskActions";
 import TrelloLists from "./TrelloLists";
 import TrelloForm from "./TrelloForm";
 
 class TrelloBoard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tasks: []
-    };
+  componentDidMount() {
+    this.props.fetchTasks();
   }
 
-  componentDidMount() {
-    fetch("http://localhost:3004/tasks")
-      .then(res => res.json())
-      .then(tasks => this.setState({ tasks: tasks }))
-      .catch(error => console.error(error));
+  componentDidUpdate(prevProps) {
+    if (this.props.newTask.id !== prevProps.newTask.id) {
+      console.log("updated");
+      this.props.fetchTasks();
+    }
   }
 
   render() {
@@ -23,10 +22,15 @@ class TrelloBoard extends Component {
       <div>
         <h1>Trello Board</h1>
         <TrelloForm></TrelloForm>
-        <TrelloLists lists={lists} tasks={this.state.tasks} />
+        <TrelloLists lists={lists} tasks={this.props.tasks} />
       </div>
     );
   }
 }
 
-export default TrelloBoard;
+const mapStateToProps = state => ({
+  tasks: state.tasks.tasks,
+  newTask: state.tasks.task
+});
+
+export default connect(mapStateToProps, { fetchTasks })(TrelloBoard);

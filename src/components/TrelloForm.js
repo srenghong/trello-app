@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-
+import { connect } from 'react-redux';
+import { addTask } from '../actions/taskActions';
 import "./TrelloForm.css";
 
 class TrelloForm extends Component {
@@ -28,22 +29,21 @@ class TrelloForm extends Component {
   }
 
   handleSubmit(e) {
-    fetch("http://localhost:3004/tasks", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(this.state.task)
-    });
     e.preventDefault();
-    this.setState({
-      task: {
-        name: "",
-        description: "",
-        status: "todo"
-      }
-    });
+    if(this.state.task.name !== "") {
+      const task = {
+        name: this.state.task.name,
+        description: this.state.task.description,
+        status: this.state.task.status
+      };
+      this.props.addTask(task);
+    }
+    const resetTask = {
+      name: "",
+      description: "",
+      status: "todo"
+    };
+    this.setState({"task": resetTask});
   }
 
   render() {
@@ -91,4 +91,4 @@ class TrelloForm extends Component {
   }
 }
 
-export default TrelloForm;
+export default connect(null, { addTask })(TrelloForm);

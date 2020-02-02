@@ -12,7 +12,6 @@ const TrelloLists = props => {
       </ul>
     </div>
   ));
-
   return <div className="list-container">{listItems}</div>;
 };
 
