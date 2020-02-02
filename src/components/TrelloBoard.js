@@ -11,7 +11,11 @@ class TrelloBoard extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.newTask.id !== prevProps.newTask.id) {
-      console.log("updated");
+      console.log("updated add");
+      this.props.fetchTasks();
+    }
+    if (this.props.tasks.map(task => task.id).includes(this.props.deleteTaskId)) {
+      console.log("updated remove");
       this.props.fetchTasks();
     }
   }
@@ -30,7 +34,8 @@ class TrelloBoard extends Component {
 
 const mapStateToProps = state => ({
   tasks: state.tasks.tasks,
-  newTask: state.tasks.task
+  newTask: state.tasks.task,
+  deleteTaskId: state.tasks.deleteTaskId
 });
 
 export default connect(mapStateToProps, { fetchTasks })(TrelloBoard);

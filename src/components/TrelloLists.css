@@ -1,5 +1,6 @@
 .list-container {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
   min-width: 800px;
   max-width: 1000px;

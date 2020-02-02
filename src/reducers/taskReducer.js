@@ -1,4 +1,4 @@
-import { FETCH_TASKS, NEW_TASK } from "../actions/types";
+import { FETCH_TASKS, NEW_TASK, REMOVE_TASK } from "../actions/types";
 
 const initialState = {
   tasks: [],
@@ -6,7 +6,8 @@ const initialState = {
     name: "",
     description: "",
     status: "todo"
-  }
+  },
+  deleteTaskId: null
 };
 
 const taskReducer = (state = initialState, action) => {
@@ -27,9 +28,15 @@ const taskReducer = (state = initialState, action) => {
           id: id
         }
       };
+    case REMOVE_TASK:
+      console.log(action.payload.id);
+      return {
+        ...state,
+        deleteTaskId: action.payload.id
+      };
     default:
       return state;
   }
-}
+};
 
 export default taskReducer;
