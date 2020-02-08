@@ -11,47 +11,37 @@ class TrelloTasks extends Component {
       showModal: false,
       updateStatus: "todo"
     };
-
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
-    this.handleOpenModal = this.handleOpenModal.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
   componentDidMount() {
     ReactModal.setAppElement("body");
   }
 
-  handleDelete(e, taskId) {
+  handleDelete = (e) => {
     e.preventDefault();
-    this.props.removeTask(taskId);
+    this.props.removeTask(e.target.id);
   }
 
-  handleChange(e) {
+  handleChange = (e) => {
     this.setState({ updateStatus: e.target.value });
   }
 
-  handleUpdate(e, taskId) {
+  handleUpdate = (e) => {
     const task = {
-      id: taskId,
+      id: e.target.id,
       status: this.state.updateStatus
     };
     this.props.updateTask(task);
-    this.handleCloseModal();
+    this.handleModal();
   }
 
-  handleOpenModal() {
-    this.setState({ showModal: true });
-  }
-
-  handleCloseModal() {
-    this.setState({ showModal: false });
+  handleModal = () => {
+    this.setState({ showModal: !this.state.showModal });
   }
 
   render() {
     return this.props.tasks
-      .filter(task => task.name !== "")
+      .filter(task => task.name.trim() !== "")
       .filter(
         task => task.status.toLowerCase() === this.props.listItem.toLowerCase()
       )
@@ -62,12 +52,13 @@ class TrelloTasks extends Component {
             Description: {task.description ? task.description : "none"}
           </div>
           <button
+            id={task.id}
             className="remove"
-            onClick={e => this.handleDelete(e, task.id)}
+            onClick={this.handleDelete}
           >
             Remove
           </button>
-          <button onClick={this.handleOpenModal}>Update Status</button>
+          <button onClick={this.handleModal}>Update Status</button>
           <ReactModal
             isOpen={this.state.showModal}
             contentLabel="Update Status Popup"
@@ -86,12 +77,13 @@ class TrelloTasks extends Component {
               </select>
             </div>
             <button
+              id={task.id}
               className="confirm"
-              onClick={e => this.handleUpdate(e, task.id)}
+              onClick={this.handleUpdate}
             >
               Confirm
             </button>
-            <button className="cancel" onClick={this.handleCloseModal}>
+            <button className="cancel" onClick={this.handleModal}>
               Cancel
             </button>
           </ReactModal>

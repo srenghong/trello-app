@@ -3,10 +3,12 @@ import React, { Component } from "react";
 class TrelloFilterBox extends Component {
   constructor(props) {
     super(props);
-    this.handleFilterTasks = this.handleFilterTasks.bind(this);
+    this.state = {
+      filterText: ""
+    };
   }
 
-  handleFilterTasks(e) {
+  handleFilterTasks = (e) => {
     this.props.onFilterTextChange(e.target.value);
   }
 

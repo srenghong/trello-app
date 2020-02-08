@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-import { addTask } from '../actions/taskActions';
+import { connect } from "react-redux";
+import { addTask } from "../actions/taskActions";
 import "./TrelloForm.css";
 
 class TrelloForm extends Component {
@@ -13,70 +13,70 @@ class TrelloForm extends Component {
         status: "todo"
       }
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(e, field) {
+  handleChange = (e) => {
     const updatedTask = {
       ...this.state.task
     };
-    updatedTask[field] = e.target.value;
+    updatedTask[e.target.id] = e.target.value;
     this.setState({
       task: updatedTask
     });
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
-    if(this.state.task.name !== "") {
+    const { name, description, status } = this.state.task;
+    if (name.trim() !== "") {
       const task = {
-        name: this.state.task.name,
-        description: this.state.task.description,
-        status: this.state.task.status
+        name,
+        description,
+        status
       };
       this.props.addTask(task);
+    } else {
+      alert("Warning: Task name is required!");
     }
     const resetTask = {
       name: "",
       description: "",
       status: "todo"
     };
-    this.setState({"task": resetTask});
+    this.setState({ task: resetTask });
   }
 
   render() {
+    const { name, description, status } = this.state.task;
     return (
       <div className="form">
         <h2>Add Task</h2>
         <form onSubmit={this.handleSubmit}>
           <div className="form-field">
             <label>
-              Task Name:{" "}
+              Task Name:
               <input
+                id="name"
                 type="text"
-                value={this.state.task.name}
-                onChange={e => this.handleChange(e, "name")}
+                value={name}
+                onChange={this.handleChange}
               />
             </label>
           </div>
           <div className="form-field">
             <label>
-              Description:{" "}
+              Description:
               <textarea
-                value={this.state.task.description}
-                onChange={e => this.handleChange(e, "description")}
+                id="description"
+                value={description}
+                onChange={this.handleChange}
               />
             </label>
           </div>
           <div className="form-field">
             <label>
               Status:
-              <select
-                value={this.state.task.status}
-                onChange={e => this.handleChange(e, "status")}
-              >
+              <select id="status" value={status} onChange={this.handleChange}>
                 <option value="todo">To do</option>
                 <option value="doing">Doing</option>
                 <option value="testing">Testing</option>

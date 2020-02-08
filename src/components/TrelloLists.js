@@ -4,13 +4,9 @@ import "./TrelloLists.css";
 import TrelloTasks from "./TrelloTasks";
 
 const TrelloLists = props => {
-  const filterText = props.filterText;
-  const filterTasks = [];
-  props.tasks.forEach(task => {
-    if (task.name.toUpperCase().indexOf(filterText.toUpperCase()) !== -1) {
-      filterTasks.push(task);
-    }
-  });
+  const filterTasks = props.tasks.filter(
+    task => task.name.toUpperCase().indexOf(props.filterText.toUpperCase()) !== -1
+  );
 
   const listItems = props.lists.map(listItem => (
     <div className="list" key={listItem}>

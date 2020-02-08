@@ -11,19 +11,13 @@ class TrelloBoard extends Component {
     this.state = {
       filterText: ""
     };
-    this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
   }
+
   componentDidMount() {
     this.props.fetchTasks();
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.update) {
-      this.props.fetchTasks();
-    }
-  }
-
-  handleFilterTextChange(filterText) {
+  handleFilterTextChange = (filterText) => {
     this.setState({
       filterText: filterText
     });
@@ -50,8 +44,7 @@ class TrelloBoard extends Component {
 }
 
 const mapStateToProps = state => ({
-  tasks: state.tasks.tasks,
-  update: state.tasks.update
+  tasks: state.tasks
 });
 
 export default connect(mapStateToProps, { fetchTasks })(TrelloBoard);

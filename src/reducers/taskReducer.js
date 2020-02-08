@@ -5,24 +5,24 @@ import {
   UPDATE_TASK
 } from "../actions/types";
 
-const initialState = {
-  tasks: [],
-  update: false
-};
+const initialState = [];
 
 const taskReducer = (state = initialState, action) => {
-  if (action.type === FETCH_TASKS) {
-    return {
-      tasks: action.payload,
-      update: false
-    };
-  } else if ([NEW_TASK, REMOVE_TASK, UPDATE_TASK].includes(action.type)) {
-    return {
-      ...state,
-      update: true
-    };
-  } else {
-    return state;
+  switch (action.type) {
+    case FETCH_TASKS:
+      return action.payload;
+    case NEW_TASK:
+      return [...state, action.payload];
+    case REMOVE_TASK:
+      return state.filter(task => task.id !== parseInt(action.payload));
+    case UPDATE_TASK:
+      return state.map(task =>
+        task.id === parseInt(action.payload.id)
+          ? Object.assign({}, task, { status: action.payload.status })
+          : task
+      );
+    default:
+      return state;
   }
 };
 

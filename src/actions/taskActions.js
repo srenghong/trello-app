@@ -19,11 +19,14 @@ export const addTask = taskData => dispatch => {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(taskData)
-  }).then(() =>
-    dispatch({
-      type: NEW_TASK
-    })
-  );
+  })
+    .then(res => res.json())
+    .then(task =>
+      dispatch({
+        type: NEW_TASK,
+        payload: task
+      })
+    );
 };
 
 export const removeTask = taskId => dispatch => {
@@ -31,7 +34,8 @@ export const removeTask = taskId => dispatch => {
     method: "DELETE"
   }).then(() =>
     dispatch({
-      type: REMOVE_TASK
+      type: REMOVE_TASK,
+      payload: taskId
     })
   );
 };
@@ -44,9 +48,12 @@ export const updateTask = taskData => dispatch => {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(taskData)
-  }).then(() =>
-    dispatch({
-      type: UPDATE_TASK
-    })
-  );
+  })
+    .then(res => res.json())
+    .then(task =>
+      dispatch({
+        type: UPDATE_TASK,
+        payload: task
+      })
+    );
 };
